@@ -1,10 +1,13 @@
 package com.eveong.myim.server.netty;
 
-import org.springframework.stereotype.Component;
-
+import com.eveong.myim.common.netty.protocol.MyimProtocolDecode;
+import com.eveong.myim.common.netty.protocol.MyimProtocolEncode;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
 
 /**
  * 
@@ -14,10 +17,18 @@ import io.netty.channel.socket.SocketChannel;
  */
 @Component
 public class MyimServerInitializer extends ChannelInitializer<SocketChannel>{
+	
+	@Resource
+	MyimProtocolServerHandler myimProtocolServerHandler;
 
 	@Override
 	protected void initChannel(SocketChannel ch) throws Exception {
 		ChannelPipeline pipeline = ch.pipeline();
+		//解码
+		pipeline.addLast(new MyimProtocolDecode());
+		//编码
+		pipeline.addLast(new MyimProtocolEncode());
+		pipeline.addLast(myimProtocolServerHandler);
 	}
 
 }

@@ -1,4 +1,4 @@
-package org.myim.common.util;
+package com.eveong.myim.common.util;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;

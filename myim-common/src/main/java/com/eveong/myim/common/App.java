@@ -1,4 +1,4 @@
-package org.myim.common;
+package com.eveong.myim.common;
 
 /**
  * Hello world!

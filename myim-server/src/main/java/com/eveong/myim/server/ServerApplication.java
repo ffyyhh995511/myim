@@ -1,12 +1,12 @@
 package com.eveong.myim.server;
 
-import javax.annotation.Resource;
-
+import com.eveong.myim.server.service.ZKService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
-import com.eveong.myim.server.zk.CuratorClient;
+import javax.annotation.Resource;
 
 /**
  * 
@@ -16,18 +16,18 @@ import com.eveong.myim.server.zk.CuratorClient;
  * @version 1.0
  */
 @SpringBootApplication
-public class Application implements CommandLineRunner{
+@ComponentScan(basePackages = {"com.eveong.myim.common","com.eveong.myim.server"})
+public class ServerApplication implements CommandLineRunner{
 
 	@Resource
-	CuratorClient curatorClient;
+	ZKService zkService;
 	
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
+		SpringApplication.run(ServerApplication.class, args);
 	}
 
+	@Override
 	public void run(String... args) throws Exception {		
-		curatorClient.registerService();
-		
-		curatorClient.getRegisterInstance();
+		zkService.register();
 	}
 }

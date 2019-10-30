@@ -1,4 +1,4 @@
-package com.eveong.myim.server.zk.instance;
+package com.eveong.myim.common.zk.instance;
 /**
  * 
  * @author:fangyunhe

@@ -1,12 +1,8 @@
-package com.eveong.myim.server.zk;
+package com.eveong.myim.common.zk;
 
-import java.net.InetAddress;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
-import javax.annotation.PostConstruct;
-
+import com.eveong.myim.common.zk.instance.MyimServiceInstance;
+import com.eveong.myim.common.zk.instance.Payload;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
@@ -21,10 +17,10 @@ import org.apache.zookeeper.CreateMode;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.eveong.myim.server.zk.instance.MyimServiceInstance;
-import com.eveong.myim.server.zk.instance.Payload;
-
-import lombok.extern.slf4j.Slf4j;
+import javax.annotation.PostConstruct;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * 
@@ -35,12 +31,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Component
 public class CuratorClient {
-
-	@Value("${server.port}")
-	private int serverPort;
-
-	@Value("${netty.server.port}")
-	private int nettyServerPort;
 
 	@Value("${zk.address}")
 	private String zkAddress;
@@ -89,16 +79,15 @@ public class CuratorClient {
 	 * @author:fangyunhe
 	 * @time:2019年10月24日 下午4:31:02
 	 */
-	public void registerService() throws Exception {
+	public void registerService(String ip, int nettyPort, int httpPort) throws Exception {
 		// 服务构造器
 		ServiceInstanceBuilder<Payload> sib = ServiceInstance.builder();
 
 		// 添加payload
 		Payload payload = new Payload();
-		String ip = InetAddress.getLocalHost().getHostAddress();
 		payload.setIp(ip);
-		payload.setNettyPort(nettyServerPort);
-		payload.setHttpPort(serverPort);
+		payload.setNettyPort(nettyPort);
+		payload.setHttpPort(httpPort);
 
 		// 实例服务
 		ServiceInstance<Payload> serviceInstance = sib.name(MyimServiceInstance.INSTANCE_NAME).payload(payload).build();

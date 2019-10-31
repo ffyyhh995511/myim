@@ -18,11 +18,19 @@
 		<java.version>1.8</java.version>
 	</properties>
 	<dependencies>
-
 		<dependency>
 			<groupId>com.eveong.myim</groupId>
 			<artifactId>myim-common</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
 </project>

@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class MyimProtocol {
-	public String msg;
+	public String content;
 	
 	public Integer sendUserId;
 	

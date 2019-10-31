@@ -17,7 +17,7 @@ public class SendMsgController {
 	
 	@GetMapping(value = "msg")
 	public String sendMsg(){
-		myimClient.send();
+		myimClient.testSend();
 		return "ok";
 	}
 }

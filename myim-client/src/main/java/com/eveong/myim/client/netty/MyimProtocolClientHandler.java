@@ -1,6 +1,5 @@
 package com.eveong.myim.client.netty;
 
-import com.alibaba.fastjson.JSON;
 import com.eveong.myim.common.netty.protocol.MyimProtocol;
 
 import io.netty.channel.ChannelHandlerContext;
@@ -12,7 +11,8 @@ public class MyimProtocolClientHandler extends SimpleChannelInboundHandler<MyimP
 
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, MyimProtocol msg) throws Exception {
-		log.info("来自服务端消息：" + JSON.toJSONString(msg));
+		log.info(msg.getSendUserId() + "对你说:");
+		log.info(msg.getContent());
 	}
 
 	@Override

@@ -1,0 +1,2 @@
+1:如果提示找不到common包，先clean一下，然后父亲层（myim）执行下install；
+2:common不是执行包，需要pom.xml的<build>配置去掉

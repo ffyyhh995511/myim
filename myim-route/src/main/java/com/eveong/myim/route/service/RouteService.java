@@ -25,7 +25,6 @@ public class RouteService {
 	 * @time:2019年10月30日 下午4:25:58
 	 */
 	public void add(RouteAddAndGetVO vo) {
-		String value = JSON.toJSONString(vo);
 		String field = String.valueOf(vo.getUserId());
 		redisTemplate.opsForHash().put(routeWithUserIdkey, field, vo);
 	}

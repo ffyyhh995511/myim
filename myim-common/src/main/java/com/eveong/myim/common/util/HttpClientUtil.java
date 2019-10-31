@@ -30,6 +30,8 @@ import java.util.Set;
  */
 @Slf4j
 public class HttpClientUtil {
+	
+	public static final String JSON_CONTENT_TYPE = "application/json";
 
     private static RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(15000).setConnectTimeout(15000)
             .setConnectionRequestTimeout(15000).build();
@@ -63,6 +65,16 @@ public class HttpClientUtil {
         // 设置参数
         StringEntity stringEntity = new StringEntity(params, "UTF-8");
         stringEntity.setContentType("application/x-www-form-urlencoded");
+        httpPost.setEntity(stringEntity);
+        return sendHttpPost(httpPost);
+    }
+    
+    
+    public static String sendHttp(String httpUrl, String paramsJson, String ContentType) {
+        HttpPost httpPost = new HttpPost(httpUrl);
+        // 设置参数
+        StringEntity stringEntity = new StringEntity(paramsJson, "UTF-8");
+        stringEntity.setContentType(ContentType);
         httpPost.setEntity(stringEntity);
         return sendHttpPost(httpPost);
     }

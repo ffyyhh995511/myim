@@ -5,6 +5,7 @@ import com.eveong.myim.common.zk.instance.Payload;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import com.eveong.myim.client.common.TemporaryCommon;
 import com.eveong.myim.client.service.OperationService;
 import com.eveong.myim.common.netty.protocol.MyimEnum;
 import com.eveong.myim.common.netty.protocol.MyimProtocol;
@@ -48,7 +49,8 @@ public class MyimClient {
             log.error("服务器没有注册实例");
         }
         String ip = registerInstance.getIp();
-        Integer nettyPort = registerInstance.getNettyPort();
+        int nettyPort = registerInstance.getNettyPort();
+        int httpPort = registerInstance.getHttpPort();
 
         final EventLoopGroup group = new NioEventLoopGroup();
  
@@ -89,14 +91,32 @@ public class MyimClient {
         });
  
         this.channel = future.channel();
-        operationService.addRoute(ip, nettyPort);
-        send();
+        int userId = (int) (Math.random() * 100);
+        TemporaryCommon.userId = userId;
+        operationService.addRoute(userId, ip, nettyPort, httpPort);
+        
+        login(userId);
     }
-
-	public void send() {
+    
+    /**
+     * 
+     * 
+     * 测试发送
+     * @author:fangyunhe
+     * @time:2019年10月31日 下午4:21:33
+     */
+	public void testSend() {
 		MyimProtocol myimProtocol = new MyimProtocol();
-		myimProtocol.setMsg("hello 你好，@cheng🌝 😭💋");
+		myimProtocol.setContent("hello 你好，@cheng🌝 😭💋");
 		myimProtocol.setMyimEnum(MyimEnum.TEXT);
+		channel.writeAndFlush(myimProtocol);
+	}
+	
+	
+	private void login(int userId) {
+		MyimProtocol myimProtocol = new MyimProtocol();
+		myimProtocol.setMyimEnum(MyimEnum.LOGIN);
+		myimProtocol.setSendUserId(userId);
 		channel.writeAndFlush(myimProtocol);
 	}
 }

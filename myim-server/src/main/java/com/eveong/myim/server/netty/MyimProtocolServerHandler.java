@@ -30,11 +30,6 @@ public class MyimProtocolServerHandler extends SimpleChannelInboundHandler<MyimP
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, MyimProtocol msg) throws Exception {
 		log.info("来自客户端消息：" + JSON.toJSONString(msg));
-		MyimProtocol myimProtocol = new MyimProtocol();
-		myimProtocol.setMsg("服务端😭💋");
-		myimProtocol.setMyimEnum(MyimEnum.TEXT);
-		ctx.channel().writeAndFlush(myimProtocol);
-		
 		
 		if(msg.getMyimEnum() == MyimEnum.LOGIN) {
 			operationService.login(msg.getSendUserId(), ctx.channel());
@@ -43,7 +38,7 @@ public class MyimProtocolServerHandler extends SimpleChannelInboundHandler<MyimP
 			operationService.logout(msg.getSendUserId());
 		}
 		if(msg.getMyimEnum() == MyimEnum.TEXT) {
-			operationService.text(msg);
+			operationService.channelWrite(msg);
 		}
 	}
 

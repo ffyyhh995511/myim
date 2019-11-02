@@ -7,7 +7,7 @@
 搭建一套支持分布式集群的即时通讯系统。
 
 ## 架构
-![](doc/architect.png)
+![](doc/myim-architect.png)
 
 ## 模块介绍
 * myim-common 公共功能模块，目前集成传输协议、zk、redis工具类等

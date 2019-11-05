@@ -5,6 +5,8 @@ import com.eveong.myim.common.netty.protocol.MyimProtocolEncode;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
+import io.netty.handler.timeout.IdleStateHandler;
+
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -23,6 +25,8 @@ public class MyimServerInitializer extends ChannelInitializer<SocketChannel>{
 
 	@Override
 	protected void initChannel(SocketChannel ch) throws Exception {
+        ch.pipeline().addLast("idleStateHandler", new IdleStateHandler(10, 0, 0));
+        ch.pipeline().addLast("idleStateTrigger", new ServerIdleStateTrigger());
 		ChannelPipeline pipeline = ch.pipeline();
 		//解码
 		pipeline.addLast(new MyimProtocolDecode());

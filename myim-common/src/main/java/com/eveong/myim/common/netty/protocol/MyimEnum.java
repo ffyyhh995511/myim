@@ -31,4 +31,9 @@ public enum MyimEnum {
 	 * 登出
 	 */
 	LOGOUT,
+	
+	/**
+	 * 
+	 */
+	HEART_BEAT,
 }

@@ -40,17 +40,20 @@ public class MyimProtocolServerHandler extends SimpleChannelInboundHandler<MyimP
 		if(msg.getMyimEnum() == MyimEnum.TEXT) {
 			operationService.channelWrite(msg);
 		}
+		if(msg.getMyimEnum() == MyimEnum.HEART_BEAT) {
+			
+		}
 	}
 
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
-		log.info("来自客户端消息：channelActive");
+		log.info("来自客户端消息 {} ：channelActive",ctx.channel().remoteAddress());
 		super.channelActive(ctx);
 	}
 
 	@Override
 	public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-		log.info("来自客户端消息：channelInactive");
+		log.info("来自客户端消息 {} ：channelInactive",ctx.channel().remoteAddress());
 		super.channelInactive(ctx);
 	}
 
@@ -66,11 +69,4 @@ public class MyimProtocolServerHandler extends SimpleChannelInboundHandler<MyimP
 		super.userEventTriggered(ctx, evt);
 	}
 
-	@Override
-	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-		log.info("来自客户端消息：exceptionCaught");
-		super.exceptionCaught(ctx, cause);
-	}
-	
-	
 }

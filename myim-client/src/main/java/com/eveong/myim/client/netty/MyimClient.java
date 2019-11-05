@@ -57,21 +57,7 @@ public class MyimClient {
         Bootstrap b = new Bootstrap();
         // 使用NioSocketChannel来作为连接用的channel类
         b.group(group).channel(NioSocketChannel.class)
-            .handler(new ChannelInitializer<SocketChannel>() {
-                // 绑定连接初始化器
-                @Override
-                public void initChannel(SocketChannel ch) throws Exception {
-                    log.info("正在连接中...");
-                    ChannelPipeline pipeline = ch.pipeline();
-                    //编码request
-                    pipeline.addLast(new MyimProtocolEncode());
-                    //解码
-                    pipeline.addLast(new MyimProtocolDecode());
-                    //客户端处理类
-                    pipeline.addLast(new MyimProtocolClientHandler());
- 
-                }
-            });
+            .handler(new MyimClientInitializer());
         //发起异步连接请求，绑定连接端口和host信息
         final ChannelFuture future = b.connect(ip, nettyPort).sync();
  
